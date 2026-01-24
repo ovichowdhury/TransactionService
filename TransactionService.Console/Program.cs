@@ -69,6 +69,23 @@ public class Program
         int result = add(5, 10);
         Console.WriteLine($"Delegate result: {result}");
 
+        // events example
+        var publisher = new Publisher();
+
+        using (var s = new Subscriber(1, publisher))
+        {
+            publisher.Publish(42);
+        }
+
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+        GC.Collect();
+
+    }
+
+    static void CreateAndForgetSubscriber(Publisher publisher)
+    {
+        var s = new Subscriber(1, publisher);
     }
 
     static async IAsyncEnumerable<int> StreamTransactionsAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
@@ -106,3 +123,42 @@ public struct MoneyStruct
 }
 
 public record MoneyRecord(long Amount, string Currency);
+
+class Publisher
+{
+    public event Action<int>? OnPublish;
+
+    public int Publish(int value)
+    {
+        OnPublish?.Invoke(value);
+        return value;
+    }
+}
+
+class Subscriber : IDisposable
+{
+    private readonly int _id;
+    private readonly Publisher _publisher;
+    public Subscriber(int id, Publisher publisher)
+    {
+        _id = id;
+        _publisher = publisher;
+        _publisher.OnPublish += HandlePublish;
+    }
+
+    private void HandlePublish(int value)
+    {
+        Console.WriteLine($"Received published value: {value}");
+    }
+
+    public void Dispose()
+    {
+        _publisher.OnPublish -= HandlePublish;
+        Console.WriteLine("Unsubscribed from publisher events.");
+    }
+
+    ~Subscriber()
+    {
+        Console.WriteLine($"Subscriber {_id} finalized (GC collected)");
+    }
+}
