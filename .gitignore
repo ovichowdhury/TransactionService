@@ -1,0 +1,82 @@
+## Ignore Visual Studio temporary files, build outputs, and user-specific files
+
+# Build artifacts
+bin/
+obj/
+out/
+
+# Visual Studio / user files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider
+.idea/
+
+# Editor directories and files
+.vscode/
+*.code-workspace
+
+# NuGet
+# NuGet packages
+*.nupkg
+packages/
+
+# NuGet v3/global packages folder
+/.nuget/packages/
+
+# Dotnet publish outputs
+publish/
+
+# Runtime files
+*.runtimeconfig.json
+*.deps.json
+
+# Test results and coverage
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+*.trx
+
+# Local DB files
+*.mdf
+*.ldf
+
+# User secrets and development settings
+**/appsettings.Development.json
+**/appsettings.Local.json
+secrets.json
+
+# EF Core Migrations
+Migrations/_EFMigrationsHistory*
+
+# Logs
+*.log
+
+# OS generated files
+Thumbs.db
+.DS_Store
+Desktop.ini
+
+# JetBrains Rider and ReSharper
+_ReSharper*/
+*.DotSettings.user
+
+# Azure Pipelines
+/.azure-pipelines/
+
+# IIS Express
+/.vs/*/applicationhost.config
+
+# Temporary files
+*.tmp
+*.temp
+
+# Dotnet tool files
+.dotnet/
+
+# Ensure build output from CI/containers isn't committed
+artifacts/
